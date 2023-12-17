@@ -1,16 +1,54 @@
-export default class Inventory {
-    constructor(Config, Util) {
-        this.Config = Config;
-        this.Util = Util;
+/**
+ * Get, filter, and augment the ad unit inventory.
+ */
+( function ( window, factory ) {
+
+    'use strict';
+
+    if ( typeof define === 'function' && define.amd ) {
+
+        define( [
+            './Util',
+            './Config'
+        ], function ( Util, Config ) {
+            return factory( window, Util, Config );
+        } );
+
+    } else if ( typeof exports === 'object' ) {
+
+        module.exports = factory(
+            window,
+            require( './Util' ),
+            require( './Config' )
+        );
+
+    } else {
+
+        window.AdManager = window.AdManager || {};
+
+        window.AdManager.Inventory = factory(
+            window,
+            window.AdManager.Util,
+            window.AdManager.Config
+        );
+
     }
+
+} ( window, function ( window, Util, Config ) {
+
+    'use strict';
+
+    //////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get sanitized inventory.
      *
      * @return {Object}
      */
-    getInventory() {
-        return this.getAvailableSizes( this.inventoryCleanTypes( this.Config.get( 'inventory' ) ) );
+    function getInventory() {
+
+        return getAvailableSizes( inventoryCleanTypes( Config.get( 'inventory' ) ) );
+
     }
 
     /**
@@ -18,10 +56,11 @@ export default class Inventory {
      *
      * @todo   Should this edit the inventory in the Config?
      *
-     * @param  {Mixed} inventory
+     * @param  {Array} inventory
      * @return {Array} inventory
      */
-    inventoryCleanTypes( inventory ) {
+    function inventoryCleanTypes( inventory ) {
+
         for ( var i = 0; i < inventory.length; i++ ) {
 
             if ( typeof inventory[ i ].type !== 'undefined' ) {
@@ -33,6 +72,7 @@ export default class Inventory {
         }
 
         return inventory;
+
     }
 
     /**
@@ -44,7 +84,8 @@ export default class Inventory {
      * @param  {Array} inventory
      * @return {Array} inventory
      */
-    getAvailableSizes( inventory ) {
+    function getAvailableSizes( inventory ) {
+
         var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
         if ( width > 1024 ) {
@@ -62,11 +103,12 @@ export default class Inventory {
                         sizesToRemove.push( inventory[ i ].sizes[ j ] );
                     }
                 }
-                inventory[ i ].sizes = this.Util.difference( inventory[ i ].sizes, sizesToRemove );
+                inventory[ i ].sizes = Util.difference( inventory[ i ].sizes, sizesToRemove );
             }
         }
 
         return inventory;
+
     }
 
     /**
@@ -74,11 +116,11 @@ export default class Inventory {
      *
      * @return {Object}
      */
-    getDynamicInventory() {
+    function getDynamicInventory() {
 
         var dynamicItems = [],
-            type = this.Config.get( 'clientType' ),
-            inventory = this.getInventory(),
+            type = Config.get( 'clientType' ),
+            inventory = getInventory(),
             localContext;
 
         for (let position of inventory) {
@@ -94,6 +136,7 @@ export default class Inventory {
             dynamicItems: dynamicItems,
             localContext: localContext
         };
+
     }
 
     /**
@@ -102,9 +145,10 @@ export default class Inventory {
      * @param  {String} slotName
      * @return {Object} adInfo
      */
-    getAdInfo( slotName ) {
+    function getAdInfo( slotName ) {
+
         var adInfo = {},
-            inventory = this.getInventory();
+            inventory = getInventory();
 
         for ( var i = 0; i < inventory.length; i++ ) {
             if ( inventory[ i ].slot !== slotName ) {
@@ -117,6 +161,7 @@ export default class Inventory {
         }
 
         return adInfo;
+
     }
 
     /**
@@ -128,7 +173,7 @@ export default class Inventory {
      * @param  {Object}  unit
      * @return {Integer} shortest
      */
-    shortestAvailable( unit ) {
+    function shortestAvailable( unit ) {
         let shortest = 0;
         unit.sizes.forEach(function(sizes) {
             if (shortest === 0) {
@@ -150,7 +195,7 @@ export default class Inventory {
      * @param  {Object}  unit
      * @return {Integer} tallest
      */
-    tallestAvailable( unit ) {
+    function tallestAvailable( unit ) {
         let tallest = 0;
         unit.sizes.forEach(function(sizes) {
             if (sizes[1] > tallest) {
@@ -169,7 +214,7 @@ export default class Inventory {
      * @param  {Integer} limit
      * @return {Object}  unit
      */
-    limitUnitHeight( unit, limit ) {
+    function limitUnitHeight( unit, limit ) {
         unit.sizes = unit.sizes.filter(function(sizes, index) {
             if (sizes[1] <= limit) {
                 return true;
@@ -186,7 +231,7 @@ export default class Inventory {
      * @param  {String} slotName
      * @return {String} type
      */
-    getUnitType( slotName ) {
+    function getUnitType( slotName ) {
         let type = 'default';
         this.getInventory().forEach(function(unit) {
             if (unit.slot !== slotName) {
@@ -198,4 +243,17 @@ export default class Inventory {
 
         return type;
     }
-}
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    return {
+        getInventory:        getInventory,
+        getAdInfo:           getAdInfo,
+        getDynamicInventory: getDynamicInventory,
+        shortestAvailable:   shortestAvailable,
+        tallestAvailable:    tallestAvailable,
+        limitUnitHeight:     limitUnitHeight,
+        getUnitType:         getUnitType
+    };
+
+} ) );

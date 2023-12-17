@@ -1,0 +1,19 @@
+{
+  "name": "admanager",
+  "version": "0.6.4",
+  "homepage": "https://github.com/athletics/AdManager",
+  "description": "A JavaScipt library for interacting with Google DFP.",
+  "license": "Apache-2.0",
+  "main": "dist/AdManager.min.js",
+  "ignore": [
+    "bower.json",
+    "package.json",
+    "gruntfile.js"
+  ],
+  "authors": [
+    "Athletics"
+  ],
+  "dependencies": {
+    "jquery": ">=1.8"
+  }
+}

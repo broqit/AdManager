@@ -1,4 +1,32 @@
-export default class Util {
+/**
+ * Shared utilities for debugging and array manipulation.
+ */
+( function ( window, factory ) {
+
+    'use strict';
+
+    if ( typeof define === 'function' && define.amd ) {
+
+        define( [], factory );
+
+    } else if ( typeof exports === 'object' ) {
+
+        module.exports = factory();
+
+    } else {
+
+        window.AdManager = window.AdManager || {};
+
+        window.AdManager.Util = factory();
+
+    }
+
+} ( window, function () {
+
+    'use strict';
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Get the difference of two arrays.
      *
@@ -6,11 +34,12 @@ export default class Util {
      * @param  {Array} values
      * @return {Array} diff
      */
-    difference(array, values) {
+    function difference( array, values ) {
         return array.filter(function(element) {
             return !values.includes(element);
         });
     }
+
     /**
      * Remove array value by key.
      *
@@ -18,13 +47,13 @@ export default class Util {
      * @param  {Integer} key
      * @return {Array}   array
      */
-    removeByKey(array, key) {
+    function removeByKey( array, key ) {
         return array.filter(function(element, index) {
             return index !== key;
         });
     }
 
-    isEmpty(obj) {
+    function isEmpty(obj) {
         for (const prop in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, prop)) {
                 return false;
@@ -33,4 +62,13 @@ export default class Util {
 
         return true
     }
-}
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    return {
+        difference:  difference,
+        removeByKey: removeByKey,
+        isEmpty: isEmpty
+    };
+
+} ) );

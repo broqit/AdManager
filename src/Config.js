@@ -1,7 +1,18 @@
-export class Config {
-    constructor() {
-        this.config = {};
-        this.defaults = {
+(function (window, factory) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+        define([], factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory();
+    } else {
+        window.AdManager = window.AdManager || {};
+        window.AdManager.Config = factory();
+    }
+}(window, function () {
+
+    'use strict';
+    var config = {},
+        defaults = {
             account: null,
             autoload: true,
             clientType: false,
@@ -25,115 +36,54 @@ export class Config {
             targeting: []
         };
 
-        document.addEventListener('AdManager:importConfig', this.onImportConfig.bind(this));
+    function init(newConfig) {
+        document.dispatchEvent(new CustomEvent('AdManager:importConfig', {detail: newConfig}));
     }
 
-    /**
-     * Get config value by key.
-     * Pass no key to get entire config object.
-     *
-     * @param  {String|Null} key Optional.
-     * @return {Mixed}
-     */
-    get(key) {
+    function set(key, value) {
+        return setConfigValue(config, key, value);
+    }
+
+    function get(key) {
         key = key || false;
-
         if (!key) {
-            return this.config;
+            return config;
         }
-
-        console.log(this.config, 'key', key)
-
-        return this.getConfigValue(this.config, key);
+        return getConfigValue(config, key);
     }
 
-    /**
-     * Set config value by key.
-     *
-     * @param  {String} key
-     * @param  {Mixed}  value
-     * @return {Object} config
-     */
-    set(key, value) {
-        return this.setConfigValue(this.config, key, value);
-    }
-
-    /**
-     * Set config value.
-     * Uses recursion to set nested values.
-     *
-     * @param  {Object} config
-     * @param  {String} key
-     * @param  {Mixed}  value
-     * @return {Object} config
-     */
-    setConfigValue(config, key, value) {
+    function setConfigValue(config, key, value) {
         if (typeof key === 'string') {
             key = key.split('.');
         }
-
         if (key.length > 1) {
-            this.setConfigValue(config[key.shift()], key, value);
+            setConfigValue(config[key.shift()], key, value);
         } else {
             config[key[0]] = value;
         }
-
         return config;
     }
 
-    /**
-     * Get config value.
-     * Uses recursion to get nested values.
-     *
-     * @param  {Object} config
-     * @param  {String} key
-     * @return {Mixed}
-     */
-    getConfigValue(config, key) {
+    function getConfigValue(config, key) {
         if (typeof key === 'string') {
             key = key.split('.');
         }
-
         if (key.length > 1) {
-            return this.getConfigValue(config[key.shift()], key);
+            return getConfigValue(config[key.shift()], key);
         } else {
             return key[0] in config ? config[key[0]] : null;
         }
     }
 
-    /**
-     * Merge passed config with defaults.
-     *
-     * @fires AdManager:unitsInserted
-     *
-     * @param  {Object} newConfig
-     */
-    init(newConfig) {
-        var event;
+    document.addEventListener('AdManager:importConfig', function (event) {
+        config = Object.assign(defaults, config, event.detail);
+        return config;
+    });
 
-        if (document.createEvent) {
-            event = document.createEvent("Event");
-            event.initEvent("AdManager:importConfig", true, true);
-        } else {
-            event = new Event("AdManager:importConfig", { bubbles: true, cancelable: true });
-        }
+    return {
+        init: init,
+        set: set,
+        get: get
+    };
 
-        event.detail = newConfig;
-
-        document.dispatchEvent(event);
-    }
-
-    /**
-     * Import new config.
-     * Merges with the current config.
-     *
-     * @param  {Object} event
-     * @param  {Object} newConfig
-     * @return {Object} config
-     */
-    onImportConfig(event) {
-        this.config = Object.assign({}, this.defaults, this.config, event.detail);
-
-        return this.config;
-    }
-}
+}));
