@@ -22,7 +22,7 @@ AdManager - це бібліотека JavaScript для взаємодії з [G
 AdManager може бути встановлено використовуючи [yarn](https://yarnpkg.com/). Для цього ви можете скористатися CLI:
 
 ```bash
-$ yarn add admanager --save
+$ yarn add @broqit/AdManager --save
 ```
 
 Або визначити його у файлі package.json:
