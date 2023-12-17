@@ -1,0 +1,26 @@
+{
+  "name": "admanager",
+  "version": "0.1.0",
+  "description": "Бібліотека AdManager, призначена для взаємодії з Google DFP.",
+  "main": "src/AdManager.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/broqit/AdManager.git"
+  },
+  "authors": [
+    {
+      "name": "Athletics",
+      "url": "https://athleticsnyc.com"
+    },
+    {
+      "name": "Roman Borkunov",
+      "url": "https://coderiz.pw"
+    }
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/broqit/AdManager",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "browserify": "^17.0.0"
+  }
+}

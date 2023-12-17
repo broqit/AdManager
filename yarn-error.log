@@ -1,0 +1,31 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/21.3.0/bin/node /usr/local/Cellar/yarn/1.22.19/libexec/bin/yarn.js config get npmScopes --json
+
+PATH: 
+  /opt/homebrew/bin:/opt/homebrew/sbin:/Applications/MAMP/bin/php/php8.2.4/bin:/Applications/MAMP/bin/php/php8.2.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin://Applications/Topaz Photo AI.app/Contents/Resources/bin:/Library/Apple/usr/bin:/Applications/MAMP/bin/php/php8.2.4/bin:/Applications/MAMP/bin/php/php8.2.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin://Applications/Topaz Photo AI.app/Contents/Resources/bin:/Library/Apple/usr/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  21.3.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/romanborkunov/PhpstormProjects/liga/cdn/src/components/AdManager/package.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /usr/local/Cellar/yarn/1.22.19/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
