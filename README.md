@@ -29,7 +29,7 @@ $ yarn add @broqit/AdManager --save
 
 ```javascript
     "dependencies": {
-        "admanager": "latest"
+        "@broqit/AdManager": "latest"
     }
 ```
 
