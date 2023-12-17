@@ -1,11 +1,11 @@
 {
-  "name": "admanager",
+  "name": "@broqit/admanager",
   "version": "0.6.5",
   "description": "A JavaScript library for interacting with Google DFP.",
   "main": "src/Index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/athletics/AdManager.git"
+    "url": "https://github.com/broqit/AdManager.git"
   },
   "authors": [
     {
@@ -18,7 +18,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "homepage": "https://github.com/athletics/AdManager",
+  "homepage": "https://github.com/broqit/AdManager",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-cli": "^2.3.0",
