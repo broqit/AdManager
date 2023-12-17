@@ -1,5 +1,5 @@
 {
-  "name": "admanager",
+  "name": "@broqit/admanager",
   "version": "0.1.0",
   "description": "Бібліотека AdManager, призначена для взаємодії з Google DFP.",
   "main": "src/AdManager.js",
